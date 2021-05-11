@@ -16,7 +16,7 @@ const moveFile = require('../lib/actions/moveFile');
 const { expect } = chai;
 chai.use(require('chai-as-promised'));
 
-const PROCESSED_FOLDER_NAME = '.elasticio_processed';
+const PROCESSED_FOLDER_NAME = '.oih_processed';
 
 class TestEmitter extends EventEmitter {
   constructor() {
