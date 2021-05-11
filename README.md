@@ -1,4 +1,4 @@
-# SFTP Component [![CircleCI](https://circleci.com/gh/elasticio/sftp-component.svg?style=svg)](https://circleci.com/gh/elasticio/sftp-component) [![CLA assistant](https://cla-assistant.io/readme/badge/elasticio/sftp-component)](https://cla-assistant.io/elasticio/sftp-component)
+# SFTP Component
 
 ## Table of Contents
 * [General information](#general-information)
@@ -20,7 +20,7 @@
    * [Download File by name](#download-file-by-name)
 * [Known limitations](#known-limitations)
 * [LICENSE](LICENSE)
-* [Contributing](https://github.com/elasticio/microsoft-onedrive-component/blob/master/CONTRIBUTING.md)
+* [Contributing](https://github.com/blendededge/sftp-component-oih/blob/master/CONTRIBUTING.md)
 * [SSH2 SFTP Client API and Documentation links](#ssh2-sftp-client-api-and-documentation-links)
 
 ## General Information
@@ -58,7 +58,7 @@ The following configuration fields are available:
 * **Pattern**: Optional regex pattern for file names. If no pattern is given, no matching is done.
 
 After a file is found:
- * It is moved to the (hidden) directory `.elasticio_processed`
+ * It is moved to the (hidden) directory `.oih_processed`
  * It is pulled and uploaded (streamed) to the attachment storage (a.k.a. steward)
  * After the upload, the READ-URL of the file will be used to generate a message with content like below:
 
@@ -79,7 +79,7 @@ After a file is found:
 
 The next component may read from `url` in `attachments` for a memory-efficient way to read/parse data. Please note that if multiple files are found, SFTP component will generate one message per file.
 
-* Note: you may need to consider cleaning up the `.elasticio_processed` directory manually
+* Note: you may need to consider cleaning up the `.oih_processed` directory manually
 
 ### Poll Files
 Triggers to get all new and updated files since last polling.

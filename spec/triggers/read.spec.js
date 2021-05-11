@@ -53,7 +53,7 @@ describe('SFTP test - read trigger', () => {
     const list = [
       {
         type: 'd',
-        name: '.elasticio_processed',
+        name: '.oih_processed',
         size: 4096,
       },
     ];
@@ -76,7 +76,7 @@ describe('SFTP test - read trigger', () => {
     const list = [
       {
         type: 'd',
-        name: '.elasticio_processed',
+        name: '.oih_processed',
         size: 4096,
       },
       {
@@ -104,7 +104,7 @@ describe('SFTP test - read trigger', () => {
     const list = [
       {
         type: 'd',
-        name: '.elasticio_processed',
+        name: '.oih_processed',
         size: 4096,
       },
       {
@@ -134,7 +134,7 @@ describe('SFTP test - read trigger', () => {
     const list = [
       {
         type: 'd',
-        name: '.elasticio_processed',
+        name: '.oih_processed',
         size: 4096,
       },
       {
