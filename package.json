@@ -1,28 +1,27 @@
 {
-  "name": "sftp-component",
-  "version": "1.4.4",
-  "description": "elastic.io SFTP component",
+  "name": "sftp-component-oih",
+  "version": "1.0.0",
+  "description": "Open Integration Hub (OIH) SFTP component",
   "scripts": {
-    "pretest": "eslint spec spec-integration lib verifyCredentials.js --fix",
+    "pretest": "eslint spec spec-integration lib --fix",
     "test": "LOG_LEVEL=trace;mocha spec --recursive --timeout 50000",
-    "integration-test": "LOG_LEVEL=trace;LOG_OUTPUT_MODE=short mocha spec-integration/* --timeout 50000"
+    "integration-test": "LOG_LEVEL=trace;LOG_OUTPUT_MODE=short mocha spec-integration/* --timeout 50000",
+    "build:docker": "docker build --pull --rm -f \"Dockerfile\" -t sftp-component:latest ."
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:elasticio/sftp-component.git"
+    "url": "git@github.com:blendededge/sftp-component-oih.git"
   },
   "engines": {
-    "node": "14"
+    "node": "12"
   },
-  "author": "elastic.io GmbH",
+  "author": "Blended Edge LLC",
   "license": "Apache-2.0",
   "dependencies": {
-    "@elastic.io/component-commons-library": "1.1.4",
+    "@elastic.io/component-commons-library": "1.1.5",
     "@elastic.io/oih-standard-library": "1.1.4",
     "async": "3.2.0",
-    "elasticio-node": "0.0.9",
-    "elasticio-rest-node": "1.2.6",
-    "elasticio-sailor-nodejs": "2.6.24",
+    "@openintegrationhub/ferryman": "^1.5.2",
     "micromatch": "4.0.2",
     "moment": "2.27.0",
     "ssh2-sftp-client": "5.2.0"
@@ -35,7 +34,7 @@
     "eslint": "7.3.1",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.0",
-    "mocha": "8.0.1",
+    "mocha": "^8.4.0",
     "nock": "13.0.0",
     "sinon": "9.0.2"
   }

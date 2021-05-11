@@ -157,7 +157,7 @@ describe('SFTP test - read trigger', () => {
 
     expect(self.emit.calledOnce).to.be.equal(true);
     expect(self.emit.getCall(0).args[0]).to.be.equal('data');
-    expect(self.emit.getCall(0).args[1].body).to.be.deep.equal({
+    expect(self.emit.getCall(0).args[1].data).to.be.deep.equal({
       filename: '1.txt',
       size: 7,
     });

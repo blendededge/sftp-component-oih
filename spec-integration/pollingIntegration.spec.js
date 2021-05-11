@@ -65,7 +65,7 @@ describe('SFTP integration test - polling', () => {
       .put('/some').reply(200, { signedUrl: { put_url: 'http://api.io/some' } });
 
     const msg = {
-      body: { filename: 'logo.svg' },
+      data: { filename: 'logo.svg' },
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -74,17 +74,17 @@ describe('SFTP integration test - polling', () => {
     };
     const result = await upload.process.call(new TestEmitter(), msg, cfg);
 
-    expect(result.body.results).to.be.an('array');
-    expect(result.body.results.length).to.equal(1);
-    expect(result.body.results[0].attachment).to.equal('logo.svg');
+    expect(result.data.results).to.be.an('array');
+    expect(result.data.results.length).to.equal(1);
+    expect(result.data.results[0].attachment).to.equal('logo.svg');
     const list = await sftp.list(cfg.directory);
     expect(list.length).to.equal(1);
     expect(list[0].name).to.equal('logo.svg');
     expect(list[0].size).to.equal(4379);
     await poll.process.call(sender, {}, cfg);
 
-    expect(sender.data[0].body.path).to.equal(`${cfg.directory}logo.svg`);
-    expect(sender.data[0].body.size).to.equal(4379);
+    expect(sender.data[0].data.path).to.equal(`${cfg.directory}logo.svg`);
+    expect(sender.data[0].data.size).to.equal(4379);
 
     await sftp.delete(`${cfg.directory}logo.svg`);
     await sftp.rmdir(cfg.directory, false);
