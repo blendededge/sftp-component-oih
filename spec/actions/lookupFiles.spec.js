@@ -45,7 +45,7 @@ describe('Lookup Files', () => {
 
   beforeEach(() => {
     msg = {
-      body: {
+      data: {
         [DIR]: '/www/nick/test',
         searchTerm0: {
           fieldName: 'name',
@@ -110,8 +110,8 @@ describe('Lookup Files', () => {
   });
 
   it('fetchAll', async () => {
-    if (listStub) listStub.withArgs(msg.body[DIR]).returns(responseBody);
-    if (existsStub) existsStub.withArgs(msg.body[DIR]).returns(true);
+    if (listStub) listStub.withArgs(msg.data[DIR]).returns(responseBody);
+    if (existsStub) existsStub.withArgs(msg.data[DIR]).returns(true);
     if (getStub) getStub.withArgs('/www/nick/test/123.json_1558428893007').returns({});
     if (getStub) getStub.withArgs('/www/nick/test/123.json_1558460387824').returns({});
     if (uploadAttachmentStub) uploadAttachmentStub.withArgs(sinon.match.any).returns(resp);
@@ -119,12 +119,12 @@ describe('Lookup Files', () => {
     cfg.emitBehaviour = 'fetchAll';
     await lookupFiles.process.call(context, msg, cfg, {});
     expect(context.emit.getCalls().length).to.be.eql(1);
-    expect(context.emit.getCall(0).args[1].body).to.deep.eql({ results: responseBody });
+    expect(context.emit.getCall(0).args[1].data).to.deep.eql({ results: responseBody });
   });
 
   it('emitIndividually', async () => {
-    if (listStub) listStub.withArgs(msg.body[DIR]).returns(responseBody);
-    if (existsStub) existsStub.withArgs(msg.body[DIR]).returns(true);
+    if (listStub) listStub.withArgs(msg.data[DIR]).returns(responseBody);
+    if (existsStub) existsStub.withArgs(msg.data[DIR]).returns(true);
     if (getStub) getStub.withArgs('/www/nick/test/123.json_1558428893007').returns({});
     if (getStub) getStub.withArgs('/www/nick/test/123.json_1558460387824').returns({});
     if (uploadAttachmentStub) uploadAttachmentStub.withArgs(sinon.match.any).returns(resp);
@@ -133,25 +133,25 @@ describe('Lookup Files', () => {
     cfg.uploadFilesToAttachments = 'Yes';
     await lookupFiles.process.call(context, msg, cfg, {});
     expect(context.emit.getCalls().length).to.be.eql(2);
-    expect(context.emit.getCall(0).args[1].body).to.deep.eql(responseBody[0]);
-    expect(context.emit.getCall(1).args[1].body).to.deep.eql(responseBody[1]);
+    expect(context.emit.getCall(0).args[1].data).to.deep.eql(responseBody[0]);
+    expect(context.emit.getCall(1).args[1].data).to.deep.eql(responseBody[1]);
   });
 
   it('emitIndividually Only metadata', async () => {
-    if (listStub) listStub.withArgs(msg.body[DIR]).returns(responseBody);
-    if (existsStub) existsStub.withArgs(msg.body[DIR]).returns(true);
+    if (listStub) listStub.withArgs(msg.data[DIR]).returns(responseBody);
+    if (existsStub) existsStub.withArgs(msg.data[DIR]).returns(true);
     cfg.numSearchTerms = 1;
     cfg.emitBehaviour = 'emitIndividually';
     cfg.uploadFilesToAttachments = 'No';
     await lookupFiles.process.call(context, msg, cfg, {});
     expect(context.emit.getCalls().length).to.be.eql(2);
-    expect(context.emit.getCall(0).args[1].body.attachment_url).to.be.undefined;
-    expect(context.emit.getCall(1).args[1].body.attachment_url).to.be.undefined;
+    expect(context.emit.getCall(0).args[1].data.attachment_url).to.be.undefined;
+    expect(context.emit.getCall(1).args[1].data.attachment_url).to.be.undefined;
   });
 
   it('dir nor found error', async () => {
-    if (existsStub) existsStub.withArgs(msg.body[DIR]).returns(false);
-    msg.body[DIR] = '/unknown_dir/test';
+    if (existsStub) existsStub.withArgs(msg.data[DIR]).returns(false);
+    msg.data[DIR] = '/unknown_dir/test';
     cfg.numSearchTerms = 1;
     cfg.emitBehaviour = 'emitIndividually';
     cfg.uploadFilesToAttachments = 'No';

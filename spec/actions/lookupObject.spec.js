@@ -17,7 +17,7 @@ describe('SFTP test - lookup file by file name', () => {
   const lookupObjectAction = new SftpLookupObject(logger, sftpClient);
   it('Lookup file by name process successful', async () => {
     const msg = {
-      body: {
+      data: {
         path: 'www/olhav/1.txt',
       },
     };
@@ -58,7 +58,7 @@ describe('SFTP test - lookup file by file name', () => {
 
     const result = await lookupObjectAction.process(msg, cfg, {});
 
-    expect(result.body).to.deep.equal(expectedBody);
+    expect(result.data).to.deep.equal(expectedBody);
     expect(result.attachments).to.deep.equal(expectedAttachments);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
     expect(sftpClientGetStub.calledOnce).to.be.equal(true);
@@ -99,7 +99,7 @@ describe('SFTP test - lookup file by file name', () => {
 
   it('Rejects a file that is too large', async () => {
     const msg = {
-      body: {
+      data: {
         path: 'www/olhav/1.txt',
       },
     };

@@ -89,7 +89,7 @@ describe('SFTP integration test - upload then download', () => {
 
   it('Uploads attachment', async () => {
     const msg = {
-      body: {},
+      data: {},
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -98,9 +98,9 @@ describe('SFTP integration test - upload then download', () => {
     };
     const result = await upload.process.call(sender, msg, cfg);
 
-    expect(result.body.results).to.be.an('array');
-    expect(result.body.results.length).to.equal(1);
-    expect(result.body.results[0].attachment).to.equal('logo.svg');
+    expect(result.data.results).to.be.an('array');
+    expect(result.data.results.length).to.equal(1);
+    expect(result.data.results[0].attachment).to.equal('logo.svg');
     const list = await sftp.list(cfg.directory);
     expect(list.length).to.equal(1);
     expect(list[0].name).to.equal('logo.svg');
@@ -111,7 +111,7 @@ describe('SFTP integration test - upload then download', () => {
 
   it('Uploads and reads attachments', async () => {
     await upload.process.call(new TestEmitter(), {
-      body: {},
+      data: {},
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -125,10 +125,10 @@ describe('SFTP integration test - upload then download', () => {
     const msg = {};
     await read.process.call(receiver, msg, cfg);
     expect(receiver.data.length).to.equal(2);
-    expect(receiver.data[0].body.filename).to.equal('logo2.svg');
-    expect(receiver.data[0].body.size).to.equal(4379);
-    expect(receiver.data[1].body.filename).to.equal('logo.svg');
-    expect(receiver.data[1].body.size).to.equal(4379);
+    expect(receiver.data[0].data.filename).to.equal('logo2.svg');
+    expect(receiver.data[0].data.size).to.equal(4379);
+    expect(receiver.data[1].data.filename).to.equal('logo.svg');
+    expect(receiver.data[1].data.size).to.equal(4379);
     const logoFilename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[0].name;
     const logo2Filename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[1].name;
     await sftp.delete(`${cfg.directory}${PROCESSED_FOLDER_NAME}/${logoFilename}`);
@@ -139,7 +139,7 @@ describe('SFTP integration test - upload then download', () => {
 
   it('Uploads and reads attachments with custom name', async () => {
     await upload.process.call(new TestEmitter(), {
-      body: { filename: 'custom.svg' },
+      data: { filename: 'custom.svg' },
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -153,10 +153,10 @@ describe('SFTP integration test - upload then download', () => {
     const msg = {};
     await read.process.call(receiver, msg, cfg);
     expect(receiver.data.length).to.equal(2);
-    expect(receiver.data[0].body.filename).to.equal('custom_logo.svg');
-    expect(receiver.data[0].body.size).to.equal(4379);
-    expect(receiver.data[1].body.filename).to.equal('custom_logo2.svg');
-    expect(receiver.data[1].body.size).to.equal(4379);
+    expect(receiver.data[0].data.filename).to.equal('custom_logo.svg');
+    expect(receiver.data[0].data.size).to.equal(4379);
+    expect(receiver.data[1].data.filename).to.equal('custom_logo2.svg');
+    expect(receiver.data[1].data.size).to.equal(4379);
     const logoFilename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[0].name;
     const logo2Filename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[1].name;
     await sftp.delete(`${cfg.directory}${PROCESSED_FOLDER_NAME}/${logoFilename}`);
@@ -167,7 +167,7 @@ describe('SFTP integration test - upload then download', () => {
 
   it('Uploads, read and deletes attachments with custom name', async () => {
     await upload.process.call(new TestEmitter(), {
-      body: { filename: 'custom.svg' },
+      data: { filename: 'custom.svg' },
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -181,27 +181,27 @@ describe('SFTP integration test - upload then download', () => {
     const msg = {};
     await read.process.call(receiver, msg, cfg);
     expect(receiver.data.length).to.equal(2);
-    expect(receiver.data[0].body.filename).to.equal('custom_logo.svg');
-    expect(receiver.data[0].body.size).to.equal(4379);
-    expect(receiver.data[1].body.filename).to.equal('custom_logo2.svg');
-    expect(receiver.data[1].body.size).to.equal(4379);
+    expect(receiver.data[0].data.filename).to.equal('custom_logo.svg');
+    expect(receiver.data[0].data.size).to.equal(4379);
+    expect(receiver.data[1].data.filename).to.equal('custom_logo2.svg');
+    expect(receiver.data[1].data.size).to.equal(4379);
 
     const logoFilename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[0].name;
     const logo2Filename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[1].name;
 
     const dir = `${cfg.directory}${PROCESSED_FOLDER_NAME}`;
     const deleteResult = await deleteAction.process.call(receiver,
-      { body: { path: `${dir}/${logoFilename}` } }, cfg);
+      { data: { path: `${dir}/${logoFilename}` } }, cfg);
     const deleteResult2 = await deleteAction.process.call(receiver,
-      { body: { path: `${dir}/${logo2Filename}` } }, cfg);
+      { data: { path: `${dir}/${logo2Filename}` } }, cfg);
 
-    expect(deleteResult.body.id).to.equal(`${dir}/${logoFilename}`);
-    expect(deleteResult2.body.id).to.equal(`${dir}/${logo2Filename}`);
+    expect(deleteResult.data.id).to.equal(`${dir}/${logoFilename}`);
+    expect(deleteResult2.data.id).to.equal(`${dir}/${logo2Filename}`);
 
     // Check that deleting an already deleted file produces {}
     const deleteResult3 = await deleteAction.process.call(receiver,
-      { body: { path: `${dir}/${logoFilename}` } }, cfg);
-    expect(deleteResult3.body).to.deep.equal({});
+      { data: { path: `${dir}/${logoFilename}` } }, cfg);
+    expect(deleteResult3.data).to.deep.equal({});
 
     await sftp.rmdir(`${cfg.directory}${PROCESSED_FOLDER_NAME}`, false);
     await sftp.rmdir(cfg.directory, false);
@@ -209,7 +209,7 @@ describe('SFTP integration test - upload then download', () => {
 
   it('Uploads, reads, and filters files by pattern match', async () => {
     await upload.process.call(new TestEmitter(), {
-      body: {},
+      data: {},
       attachments: {
         'logo.svg': {
           url: 'https://app.elastic.io/img/logo.svg',
@@ -231,8 +231,8 @@ describe('SFTP integration test - upload then download', () => {
     cfg.pattern = 'pattern*';
     await read.process.call(receiver, msg, cfg);
     expect(receiver.data.length).to.equal(1);
-    expect(receiver.data[0].body.filename).to.equal('pattern.svg');
-    expect(receiver.data[0].body.size).to.equal(4379);
+    expect(receiver.data[0].data.filename).to.equal('pattern.svg');
+    expect(receiver.data[0].data.size).to.equal(4379);
     await sftp.delete(`${cfg.directory}logo.svg`);
     const patternFilename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[0].name;
     await sftp.delete(`${cfg.directory}${PROCESSED_FOLDER_NAME}/${patternFilename}`);
@@ -245,7 +245,7 @@ describe('SFTP integration test - upload then download', () => {
     const callAttachmentProcessor = attachmentProcessorStub.returns({ config: { url: 'https://url' } });
 
     await upload.process.call(new TestEmitter(), {
-      body: {
+      data: {
         filename: 'logo.svg',
       },
       attachments: {
@@ -260,12 +260,12 @@ describe('SFTP integration test - upload then download', () => {
     expect(list[0].name).to.equal('logo.svg');
 
     const msg = {
-      body: {
+      data: {
         path: `${directory}/logo.svg`,
       },
     };
     const result = await lookupObject.process.call(receiver, msg, cfg);
-    expect(result.body.name).to.equal('logo.svg');
+    expect(result.data.name).to.equal('logo.svg');
     expect(callAttachmentProcessor.calledOnce).to.be.equal(true);
     await sftp.delete(`${cfg.directory}logo.svg`);
     await sftp.rmdir(cfg.directory, false);
@@ -295,14 +295,14 @@ describe('SFTP integration test - upload then download', () => {
 
       sender = new TestEmitter();
       const msg = {
-        body: {
+        data: {
           filename: filename.replace('/home/eiotesti/', './'),
           attachmentUrl: attachmentUrl1,
         },
       };
       const result = await upsertFile.process.call(sender, msg, cfg);
 
-      expect(result.body.size).to.equal(attachmentUrl1ContentSize);
+      expect(result.data.size).to.equal(attachmentUrl1ContentSize);
       const list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
@@ -320,14 +320,14 @@ describe('SFTP integration test - upload then download', () => {
 
       sender = new TestEmitter();
       const msg = {
-        body: {
+        data: {
           filename,
           attachmentUrl: attachmentUrl1,
         },
       };
       const result = await upsertFile.process.call(sender, msg, cfg);
 
-      expect(result.body.size).to.equal(attachmentUrl1ContentSize);
+      expect(result.data.size).to.equal(attachmentUrl1ContentSize);
       const list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
@@ -347,28 +347,28 @@ describe('SFTP integration test - upload then download', () => {
 
       sender = new TestEmitter();
       const msg1 = {
-        body: {
+        data: {
           filename,
           attachmentUrl: attachmentUrl1,
         },
       };
       const result1 = await upsertFile.process.call(sender, msg1, cfg);
 
-      expect(result1.body.size).to.equal(attachmentUrl1ContentSize);
+      expect(result1.data.size).to.equal(attachmentUrl1ContentSize);
       let list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
       expect(list[0].size).to.equal(attachmentUrl1ContentSize);
 
       const msg2 = {
-        body: {
+        data: {
           filename,
           attachmentUrl: attachmentUrl2,
         },
       };
       const result2 = await upsertFile.process.call(sender, msg2, cfg);
 
-      expect(result2.body.size).to.equal(attachmentUrl2ContentSize);
+      expect(result2.data.size).to.equal(attachmentUrl2ContentSize);
       list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
@@ -386,28 +386,28 @@ describe('SFTP integration test - upload then download', () => {
 
       sender = new TestEmitter();
       const msg1 = {
-        body: {
+        data: {
           filename,
           attachmentUrl: attachmentUrl1,
         },
       };
       const result1 = await upsertFile.process.call(sender, msg1, cfg);
 
-      expect(result1.body.size).to.equal(attachmentUrl1ContentSize);
+      expect(result1.data.size).to.equal(attachmentUrl1ContentSize);
       let list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
       expect(list[0].size).to.equal(attachmentUrl1ContentSize);
 
       const msg2 = {
-        body: {
+        data: {
           filename,
           attachmentUrl: attachmentUrl2,
         },
       };
       const result2 = await upsertFile.process.call(sender, msg2, cfg);
 
-      expect(result2.body.size).to.equal(attachmentUrl1ContentSize + attachmentUrl2ContentSize);
+      expect(result2.data.size).to.equal(attachmentUrl1ContentSize + attachmentUrl2ContentSize);
       list = await sftp.list(directory);
       expect(list.length).to.equal(1);
       expect(list[0].name).to.equal('test.file');
@@ -444,16 +444,16 @@ describe('SFTP integration test - upload then download', () => {
     });
 
     it('Posix No Conflict Move', async () => {
-      const body = {
+      const data = {
         filename: fooPath,
         newFilename: bazPath,
       };
 
       await moveFile.process.call(receiver, {
-        body,
+        data,
       }, cfg);
 
-      expect(receiver.data[0].body).to.deep.equal(body);
+      expect(receiver.data[0].data).to.deep.equal(data);
       const dirResults = await sftp.list(mvTestDir);
       const dirNames = dirResults.map((f) => f.name).sort();
       expect(dirNames).to.deep.equal(['bar.txt', 'baz.txt']);
@@ -464,17 +464,17 @@ describe('SFTP integration test - upload then download', () => {
     it('Non Posix No Conflict Move', async () => {
       const stub = sinon.stub(SftpClient.prototype, 'posixRename');
       stub.throws(new Error('Server does not support this extended request'));
-      const body = {
+      const data = {
         filename: fooPath,
         newFilename: bazPath,
       };
 
       await moveFile.process.call(receiver, {
-        body,
+        data,
       }, cfg);
 
       expect(stub.called).to.be.true;
-      expect(receiver.data[0].body).to.deep.equal(body);
+      expect(receiver.data[0].data).to.deep.equal(data);
       const dirResults = await sftp.list(mvTestDir);
       const dirNames = dirResults.map((f) => f.name).sort();
       expect(dirNames).to.deep.equal(['bar.txt', 'baz.txt']);
@@ -483,16 +483,16 @@ describe('SFTP integration test - upload then download', () => {
     });
 
     it('Posix Overwrite', async () => {
-      const body = {
+      const data = {
         filename: fooPath,
         newFilename: barPath,
       };
 
       await moveFile.process.call(receiver, {
-        body,
+        data,
       }, cfg);
 
-      expect(receiver.data[0].body).to.deep.equal(body);
+      expect(receiver.data[0].data).to.deep.equal(data);
       const dirResults = await sftp.list(mvTestDir);
       const dirNames = dirResults.map((f) => f.name).sort();
       expect(dirNames).to.deep.equal(['bar.txt']);
@@ -503,17 +503,17 @@ describe('SFTP integration test - upload then download', () => {
     it('Non-Posix Overwrite', async () => {
       const stub = sinon.stub(SftpClient.prototype, 'posixRename');
       stub.throws(new Error('Server does not support this extended request'));
-      const body = {
+      const data = {
         filename: fooPath,
         newFilename: barPath,
       };
 
       await moveFile.process.call(receiver, {
-        body,
+        data,
       }, cfg);
 
       expect(stub.called).to.be.true;
-      expect(receiver.data[0].body).to.deep.equal(body);
+      expect(receiver.data[0].data).to.deep.equal(data);
       const dirResults = await sftp.list(mvTestDir);
       const dirNames = dirResults.map((f) => f.name).sort();
       expect(dirNames).to.deep.equal(['bar.txt']);

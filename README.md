@@ -70,7 +70,7 @@ After a file is found:
       "url": "https://steward.eio.cloud/foo&Signature=5%2FsrvmbGGfVoYpKeMH3ugaEL"
     }
   },
-  "body": {
+  "data": {
     "filename": "large.xml",
     "size": 2508908
   }
@@ -351,7 +351,7 @@ After the upload, the READ-URL of the file will be used to generate a message wi
       "size": 7
     }
   },
-  "body": {
+  "data": {
     "type": "-",
     "name": "1.txt",
     "size": 7,
@@ -465,7 +465,7 @@ After the upload, the READ-URL of the file will be used to generate a message wi
       "size": 7
     }
   },
-  "body": {
+  "data": {
     "type": "-",
     "name": "1.txt",
     "size": 7,
