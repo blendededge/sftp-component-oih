@@ -1,7 +1,7 @@
 {
-  "name": "sftp-component",
-  "version": "1.4.4",
-  "description": "elastic.io SFTP component",
+  "name": "sftp-component-oih",
+  "version": "1.0.0",
+  "description": "Open Integration Hub (OIH) SFTP component",
   "scripts": {
     "pretest": "eslint spec spec-integration lib --fix",
     "test": "LOG_LEVEL=trace;mocha spec --recursive --timeout 50000",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:elasticio/sftp-component.git"
+    "url": "git@github.com:blendededge/sftp-component-oih.git"
   },
   "engines": {
-    "node": "14"
+    "node": "12"
   },
-  "author": "elastic.io GmbH",
+  "author": "Blended Edge LLC",
   "license": "Apache-2.0",
   "dependencies": {
     "@elastic.io/component-commons-library": "1.1.5",
