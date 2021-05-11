@@ -20,8 +20,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-#       - name: Check Out Repo 
-#         uses: actions/checkout@v2
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
         id: buildx
@@ -47,6 +47,7 @@ jobs:
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sftp-component-oih:latest
           cache-from: type=local,src=/tmp/.buildx-cache
