@@ -1,10 +1,11 @@
 const sinon = require('sinon');
 const chaiAsPromised = require('chai-as-promised');
 const chai = require('chai');
-const { AttachmentProcessor, Logger } = require('@elastic.io/component-commons-library');
+const { Logger } = require('@elastic.io/component-commons-library');
+const { expect } = require('chai');
+const { AttachmentProcessor } = require('../../lib/attachmentProcessor');
 
 chai.use(chaiAsPromised);
-const { expect } = require('chai');
 const Sftp = require('../../lib/Sftp');
 const trigger = require('../../lib/triggers/read');
 
