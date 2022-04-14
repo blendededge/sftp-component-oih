@@ -18,10 +18,11 @@
   "author": "Blended Edge LLC",
   "license": "Apache-2.0",
   "dependencies": {
+    "@blendededge/ferryman-extensions": "^1.0.3",
     "@elastic.io/component-commons-library": "1.1.5",
     "@elastic.io/oih-standard-library": "1.1.4",
-    "async": "3.2.0",
     "@openintegrationhub/ferryman": "^1.5.2",
+    "async": "3.2.0",
     "micromatch": "4.0.2",
     "moment": "2.27.0",
     "ssh2-sftp-client": "5.2.0"
