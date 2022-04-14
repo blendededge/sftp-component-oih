@@ -6,7 +6,8 @@
     "pretest": "eslint spec spec-integration lib --fix",
     "test": "LOG_LEVEL=trace;mocha spec --recursive --timeout 50000",
     "integration-test": "LOG_LEVEL=trace;LOG_OUTPUT_MODE=short mocha spec-integration/* --timeout 50000",
-    "build:docker": "docker build --pull --rm -f \"Dockerfile\" -t sftp-component:latest ."
+    "build:docker": "docker build --pull --rm -f \"Dockerfile\" -t sftp-component:latest .",
+    "lint": "eslint lib"
   },
   "repository": {
     "type": "git",
