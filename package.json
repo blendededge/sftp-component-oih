@@ -6,7 +6,8 @@
     "pretest": "eslint spec spec-integration lib --fix",
     "test": "LOG_LEVEL=trace;mocha spec --recursive --timeout 50000",
     "integration-test": "LOG_LEVEL=trace;LOG_OUTPUT_MODE=short mocha spec-integration/* --timeout 50000",
-    "build:docker": "docker build --pull --rm -f \"Dockerfile\" -t sftp-component:latest ."
+    "build:docker": "docker build --pull --rm -f \"Dockerfile\" -t sftp-component:latest .",
+    "lint": "eslint lib"
   },
   "repository": {
     "type": "git",
@@ -21,10 +22,10 @@
     "@blendededge/ferryman-extensions": "^1.0.4",
     "@elastic.io/component-commons-library": "1.1.5",
     "@elastic.io/oih-standard-library": "1.1.4",
+    "async": "3.2.2",
     "@openintegrationhub/ferryman": "^1.5.2",
-    "async": "3.2.0",
     "micromatch": "4.0.2",
-    "moment": "2.27.0",
+    "moment": "2.29.2",
     "ssh2-sftp-client": "5.2.0"
   },
   "devDependencies": {
