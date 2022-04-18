@@ -1,7 +1,6 @@
 const sinon = require('sinon');
 const chaiAsPromised = require('chai-as-promised');
 const chai = require('chai');
-const { Logger } = require('@elastic.io/component-commons-library');
 const { expect } = require('chai');
 const { AttachmentProcessor } = require('../../lib/attachmentProcessor');
 
@@ -9,12 +8,14 @@ chai.use(chaiAsPromised);
 const Sftp = require('../../lib/Sftp');
 const trigger = require('../../lib/triggers/read');
 
-const logger = Logger.getLogger();
-
 describe('SFTP test - read trigger', () => {
   const self = {
     emit: sinon.spy(),
-    logger,
+    logger: {
+      debug: () => {},
+      info: () => {},
+      trace: () => {},
+    },
   };
   const buffer = Buffer.from('Hello');
   const res = { config: { url: 'https://url' } };
