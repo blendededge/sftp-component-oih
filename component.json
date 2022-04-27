@@ -35,6 +35,9 @@
         "required": false,
         "placeholder": "Paste your SFTP Private Key",
         "note": "For using Private Key based authentication, leave Password field empty"
+      },
+      "attachmentServiceUrl": {
+        "label": "The URL for the Attachment Storage Service"
       }
     }
   },
@@ -59,6 +62,9 @@
           "required": true,
           "placeholder": "/foo/bar",
           "note": "Directory will be created if not exists, attachments with the same name would be overwritten"
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "metadata": {
@@ -127,6 +133,9 @@
             "overwrite": "Overwrite the File",
             "append": "Append the File Contents"
           }
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "metadata": {
@@ -208,6 +217,11 @@
         "description": "Moves file on SFTP already exists in one location on an sftp server to be moved to another location on the same SFTP server",
         "link": "/components/sftp/actions#move-file"
       },
+      "fields": {
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
+        }
+      },
       "metadata": {
         "in": {
           "type": "object",
@@ -250,6 +264,11 @@
       "help": {
         "description": "Delete file by name in provided path",
         "link": "/components/sftp/actions#delete-file"
+      },
+      "fields": {
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
+        }
       },
       "metadata": {
         "in": {
@@ -299,6 +318,9 @@
             "No": "No"
           },
           "prompt": "Allow File name to be omitted? Default: No."
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "metadata": {
@@ -391,6 +413,9 @@
             "No": "No"
           },
           "prompt": "Include attachments to the output message? Default: Yes."
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "dynamicMetadata": true
@@ -417,6 +442,9 @@
           "label": "Pattern to Match Files",
           "required": false,
           "placeholder": "Pattern"
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "metadata": {
@@ -475,6 +503,9 @@
           "required": false,
           "note": "Default: maximum time",
           "placeholder": "Format ISO 8601: 2019-11-21T04:08:01Z"
+        },
+        "attachmentServiceUrl": {
+          "label": "The URL for the Attachment Storage Service"
         }
       },
       "metadata": {

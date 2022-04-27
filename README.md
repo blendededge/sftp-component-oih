@@ -263,7 +263,7 @@ The following configuration fields are available:
 
 ### Move File
 Action to move file on SFTP already exists in one location on an sftp server to be moved to another location on the same SFTP server.
-Target location MUST exist.  If the target filename already exists it will be overwritten. This action uses the openssh POSIX rename extension introduced in OpenSSH 4.8 if it is available. The advantage of this version of rename over standard SFTP rename is that it is an atomic operation and will allow renaming a resource where the destination name exists. If the openssh POSIX rename mechanism is not available, then a delete operation and then rename operation will be completed. 
+Target location MUST exist.  If the target filename already exists it will be overwritten. This action uses the openssh POSIX rename extension introduced in OpenSSH 4.8 if it is available. The advantage of this version of rename over standard SFTP rename is that it is an atomic operation and will allow renaming a resource where the destination name exists. If the openssh POSIX rename mechanism is not available, then a delete operation and then rename operation will be completed.
 
 #### Expected input metadata
 ```json
@@ -526,7 +526,7 @@ Between search terms, there is **Criteria Link**. You need to select the one cri
 ```
 , it will be executed as
  ```iso92-sql
-(searchTerm1 and SearchTerm2) or SearchTerm3                       
+(searchTerm1 and SearchTerm2) or SearchTerm3
 ```
 
 For example, if you want to find all files where field `name` starts from `123` or field `size` grater than `10000`:
@@ -589,7 +589,7 @@ Schema of output metadata depends on Behaviour configuration:
                },
                "directory": {
                   "type": "string"
-               },               
+               },
                "path": {
                   "type": "string"
                }
@@ -649,7 +649,7 @@ Schema of output metadata depends on Behaviour configuration:
       },
       "directory": {
           "type": "string"
-      },               
+      },
       "path": {
           "type": "string"
       }
@@ -662,6 +662,14 @@ Schema of output metadata depends on Behaviour configuration:
 
 #### Known limitations
 Action does not support `Fetch Page` mode (according to OIH standards)
+
+## Attachment Storage Service Interaction
+
+The url for the Attachment Storage Service can be supplied, in descending order of precedence:
+
+- specifying a `attachmentServiceUrl` value in the node's fields object
+- environment variable `ELASTICIO_ATTACHMENT_STORAGE_SERVICE_BASE_URL`
+- default value of `http://attachment-storage-service.oih-prod-ns.svc.cluster.local:3002`
 
 
 ## Known limitations
