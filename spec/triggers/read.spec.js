@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const chaiAsPromised = require('chai-as-promised');
 const chai = require('chai');
 const { expect } = require('chai');
-const { AttachmentProcessor } = require('../../lib/attachmentProcessor');
+const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
 
 chai.use(chaiAsPromised);
 const Sftp = require('../../lib/Sftp');

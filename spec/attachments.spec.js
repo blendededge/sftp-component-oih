@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const Stream = require('stream');
-const { AttachmentProcessor } = require('../lib/attachmentProcessor');
+const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
 const attachments = require('../lib/attachments');
 
 // stub things
@@ -29,7 +29,7 @@ describe('Attachment tests', () => {
   it('Adds an attachment correctly and returns the correct message', async () => {
     uploadAttachment = sinon.stub(AttachmentProcessor.prototype, 'uploadAttachment').resolves(result);
     await attachments.addAttachment.call(self, msg, cfg, name, stream, contentLength);
-    expect(uploadAttachment.calledOnceWithExactly(stream, 'stream')).to.be.equal(true);
+    expect(uploadAttachment.calledOnceWithExactly(stream, 'application/octet-stream')).to.be.equal(true);
     expect(msg).to.be.deep.equal({ attachments: { file: { url: '/hello/world', size: 10 } } });
     uploadAttachment.restore();
   });
