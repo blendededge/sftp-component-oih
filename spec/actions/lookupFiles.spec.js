@@ -2,7 +2,7 @@ require('dotenv').config();
 const logger = require('@elastic.io/component-commons-library/lib/logger/logger').getLogger();
 const sinon = require('sinon');
 const { expect } = require('chai');
-const { AttachmentProcessor } = require('../../lib/attachmentProcessor');
+const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
 const lookupFiles = require('../../lib/actions/lookupObjects');
 const { DIR } = require('../../lib/constants');
 const Sftp = require('../../lib/Sftp');
