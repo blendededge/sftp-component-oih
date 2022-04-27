@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const Stream = require('stream');
-const { AttachmentProcessor } = require('../lib/attachmentProcessor');
+const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
 const attachments = require('../lib/attachments');
 
 // stub things
