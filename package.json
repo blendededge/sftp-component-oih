@@ -22,11 +22,11 @@
     "@blendededge/ferryman-extensions": "^1.1.2",
     "@elastic.io/component-commons-library": "1.1.5",
     "@elastic.io/oih-standard-library": "1.1.4",
-    "async": "3.2.2",
     "@openintegrationhub/ferryman": "~2.1",
+    "async": "^3.2.3",
     "micromatch": "4.0.2",
-    "moment": "2.29.2",
-    "ssh2-sftp-client": "5.2.0"
+    "moment": "^2.29.3",
+    "ssh2-sftp-client": "^8.0.0"
   },
   "devDependencies": {
     "bunyan": "1.8.14",
