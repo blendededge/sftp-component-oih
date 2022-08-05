@@ -25,7 +25,7 @@
     "@openintegrationhub/ferryman": "^2.1.1",
     "async": "^3.2.3",
     "micromatch": "4.0.2",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "ssh2-sftp-client": "^8.0.0"
   },
   "devDependencies": {
