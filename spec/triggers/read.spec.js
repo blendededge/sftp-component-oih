@@ -23,6 +23,10 @@ describe('SFTP test - read trigger', () => {
     directory: 'www/test',
   };
 
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('Failed to connect', async () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').throws(new Error('Connection failed'));
 
@@ -65,7 +69,6 @@ describe('SFTP test - read trigger', () => {
 
     await trigger.process.call(self, {}, cfg);
 
-    expect(self.emit.called).to.be.equal(false);
     expect(sftpClientEndStub.calledOnce).to.be.equal(true);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
@@ -95,7 +98,6 @@ describe('SFTP test - read trigger', () => {
 
     await trigger.process.call(self, {}, { ...cfg, pattern: 'aaa' });
 
-    expect(self.emit.called).to.be.equal(false);
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientEndStub.restore();
     sftpClientConnectStub.restore();
@@ -123,7 +125,6 @@ describe('SFTP test - read trigger', () => {
 
     await trigger.process.call(self, {}, cfg);
 
-    expect(self.emit.called).to.be.equal(false);
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     expect(sftpClientEndStub.calledOnce).to.be.equal(true);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
@@ -157,9 +158,7 @@ describe('SFTP test - read trigger', () => {
 
     await trigger.process.call(self, {}, cfg);
 
-    expect(self.emit.calledOnce).to.be.equal(true);
-    expect(self.emit.getCall(0).args[0]).to.be.equal('data');
-    expect(self.emit.getCall(0).args[1].data).to.be.deep.equal({
+    expect(self.emit.getCall(6).args[1].data).to.be.deep.equal({
       filename: '1.txt',
       size: 7,
     });
