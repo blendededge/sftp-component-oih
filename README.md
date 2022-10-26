@@ -56,6 +56,7 @@ Also please pay attention that the field `Password` should be empty in this case
 The following configuration fields are available:
 * **Directory**: The directory of the files to read from.
 * **Pattern**: Optional regex pattern for file names. If no pattern is given, no matching is done.
+* **dontThrowErrorFlag**: If set, component will emit message to the next step with the `errorName`, `errorMessage`, and `errorStack`
 
 After a file is found:
  * It is moved to the (hidden) directory `.oih_processed`
@@ -154,6 +155,8 @@ The following configuration fields are available:
 Input metadata:
 
 - **Filename**: Custom name for uploaded file.
+- **enableRebound**: If set, component will retry upon write errors
+- **dontThrowErrorFlag**: If set, component will emit message to the next step with the `errorName`, `errorMessage`, and `errorStack`
 
 Notes:
 * Uploaded file name will get filename of income file if new `Filename` doesn't provided
@@ -170,6 +173,8 @@ The following configuration fields are available:
   - **Throw an Error**: Does not write data to the file and the component produces an error
   - **Overwrite the File**: Replace the existing file contents with the contents of the attachment stored in the platform.
   - **Append the File Contents**: Adds the contents of the attachment stored in the platform to the end of the file. No intermediate characters (e.g. newlines or spaces) will be added.
+- **enableRebound**: If set, component will retry upon write errors
+- **dontThrowErrorFlag**: If set, component will emit message to the next step with the `errorName`, `errorMessage`, and `errorStack`
 
 * Note: If the filename provided contains directories that do not exist, those directories will be created.
 
