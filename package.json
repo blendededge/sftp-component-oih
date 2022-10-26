@@ -1,6 +1,6 @@
 {
   "name": "sftp-component-oih",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Open Integration Hub (OIH) SFTP component",
   "scripts": {
     "pretest": "eslint spec spec-integration lib --fix",
