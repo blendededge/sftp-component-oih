@@ -53,6 +53,7 @@ describe('Lookup Files', () => {
           fieldValue: '123*',
         },
       },
+      metadata: {},
     };
     cfg = {
       host: process.env.SFTP_HOSTNAME || 'hostname',

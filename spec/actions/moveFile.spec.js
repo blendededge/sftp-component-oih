@@ -37,6 +37,7 @@ describe('Lookup Files', () => {
         filename: '/some/file.txt',
         newFilename: '/some/new/file.txt',
       },
+      metadata: {},
     };
 
     cfg = {

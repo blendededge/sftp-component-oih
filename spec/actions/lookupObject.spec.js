@@ -20,6 +20,7 @@ describe('SFTP test - lookup file by file name', () => {
       data: {
         path: 'www/olhav/1.txt',
       },
+      metadata: {},
     };
     const list = [
       {
