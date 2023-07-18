@@ -1,7 +1,6 @@
 require('dotenv').config();
 const chai = require('chai');
 const EventEmitter = require('events');
-const logger = require('@elastic.io/component-commons-library/lib/logger/logger').getLogger();
 const sinon = require('sinon');
 const SftpClient = require('ssh2-sftp-client');
 const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
@@ -24,7 +23,12 @@ class TestEmitter extends EventEmitter {
     this.data = [];
     this.end = 0;
     this.error = [];
-    this.logger = logger;
+    this.logger = {
+      info: sinon.spy(),
+      error: sinon.spy(),
+      debug: sinon.spy(),
+      trace: sinon.spy(),
+    };
 
     this.on('data', (value) => this.data.push(value));
     this.on('error', (value) => this.error.push(value));
@@ -63,7 +67,12 @@ describe('SFTP integration test - upload then download', () => {
       port,
       directory,
     };
-    sftp = new Sftp(logger, cfg);
+    sftp = new Sftp({
+      info: sinon.spy(),
+      error: sinon.spy(),
+      debug: sinon.spy(),
+      trace: sinon.spy(),
+    }, cfg);
     await sftp.connect();
   });
 

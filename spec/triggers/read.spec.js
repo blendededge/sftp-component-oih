@@ -30,7 +30,7 @@ describe('SFTP test - read trigger', () => {
   it('Failed to connect', async () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').throws(new Error('Connection failed'));
 
-    await expect(trigger.process.call(self, {}, cfg)).be.rejectedWith('Connection failed');
+    await expect(trigger.process.call(self, { metadata: {} }, cfg)).be.rejectedWith('Connection failed');
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientConnectStub.restore();
   });
@@ -39,7 +39,7 @@ describe('SFTP test - read trigger', () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').returns({});
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list').throws(new Error('No such directory'));
 
-    await expect(trigger.process.call(self, {}, cfg)).be.rejectedWith('No such directory');
+    await expect(trigger.process.call(self, { metadata: {} }, cfg)).be.rejectedWith('No such directory');
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
@@ -49,7 +49,7 @@ describe('SFTP test - read trigger', () => {
 
   it('Invalid file pattern causes exception', async () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').returns({});
-    await expect(trigger.process.call(self, {}, { ...cfg, pattern: '***' })).be.rejectedWith('Invalid regular expression: /***/: Nothing to repeat');
+    await expect(trigger.process.call(self, { metadata: {} }, { ...cfg, pattern: '***' })).be.rejectedWith('Invalid regular expression: /***/: Nothing to repeat');
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientConnectStub.restore();
@@ -67,7 +67,7 @@ describe('SFTP test - read trigger', () => {
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list').returns(list);
     const sftpClientEndStub = sinon.stub(Sftp.prototype, 'end').returns(true);
 
-    await trigger.process.call(self, {}, cfg);
+    await trigger.process.call(self, { metadata: {} }, cfg);
 
     expect(sftpClientEndStub.calledOnce).to.be.equal(true);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
@@ -96,7 +96,7 @@ describe('SFTP test - read trigger', () => {
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list').returns(list);
     const sftpClientEndStub = sinon.stub(Sftp.prototype, 'end').returns(true);
 
-    await trigger.process.call(self, {}, { ...cfg, pattern: 'aaa' });
+    await trigger.process.call(self, { metadata: {} }, { ...cfg, pattern: 'aaa' });
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientEndStub.restore();
@@ -123,7 +123,7 @@ describe('SFTP test - read trigger', () => {
     const sftpClientEndStub = sinon.stub(Sftp.prototype, 'end').returns(true);
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list').returns(list);
 
-    await trigger.process.call(self, {}, cfg);
+    await trigger.process.call(self, { metadata: {} }, cfg);
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     expect(sftpClientEndStub.calledOnce).to.be.equal(true);
@@ -156,9 +156,9 @@ describe('SFTP test - read trigger', () => {
     const sftpClientGetStub = sinon.stub(Sftp.prototype, 'get').returns(buffer);
     const attachStub = sinon.stub(AttachmentProcessor.prototype, 'uploadAttachment').returns(res);
 
-    await trigger.process.call(self, {}, cfg);
+    await trigger.process.call(self, { metadata: {} }, cfg);
 
-    expect(self.emit.getCall(6).args[1].data).to.be.deep.equal({
+    expect(self.emit.getCall(9).args[1].data).to.be.deep.equal({
       filename: '1.txt',
       size: 7,
     });
