@@ -1,5 +1,4 @@
 require('dotenv').config();
-const logger = require('@elastic.io/component-commons-library/lib/logger/logger').getLogger();
 const sinon = require('sinon');
 const { expect } = require('chai');
 const { AttachmentProcessor } = require('@blendededge/ferryman-extensions');
@@ -9,7 +8,12 @@ const Sftp = require('../../lib/Sftp');
 
 const context = {
   emit: sinon.spy(),
-  logger,
+  logger: {
+    info: sinon.spy(),
+    error: sinon.spy(),
+    debug: sinon.spy(),
+    trace: sinon.spy(),
+  },
 };
 
 let cfg;
