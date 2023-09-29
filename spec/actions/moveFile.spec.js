@@ -7,10 +7,12 @@ const Sftp = require('../../lib/Sftp');
 const context = {
   emit: sinon.spy(),
   logger: {
-    info: sinon.spy(),
-    error: sinon.spy(),
-    debug: sinon.spy(),
-    trace: sinon.spy(),
+    child: () => ({
+      info: sinon.spy(),
+      error: sinon.spy(),
+      debug: sinon.spy(),
+      trace: sinon.spy(),
+    }),
   },
 };
 

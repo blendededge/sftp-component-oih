@@ -199,17 +199,26 @@ describe('SFTP integration test - upload then download', () => {
     const logo2Filename = (await sftp.list(`${cfg.directory}${PROCESSED_FOLDER_NAME}`))[1].name;
 
     const dir = `${cfg.directory}${PROCESSED_FOLDER_NAME}`;
-    const deleteResult = await deleteAction.process.call(receiver,
-      { data: { path: `${dir}/${logoFilename}` } }, cfg);
-    const deleteResult2 = await deleteAction.process.call(receiver,
-      { data: { path: `${dir}/${logo2Filename}` } }, cfg);
+    const deleteResult = await deleteAction.process.call(
+      receiver,
+      { data: { path: `${dir}/${logoFilename}` } },
+      cfg,
+    );
+    const deleteResult2 = await deleteAction.process.call(
+      receiver,
+      { data: { path: `${dir}/${logo2Filename}` } },
+      cfg,
+    );
 
     expect(deleteResult.data.id).to.equal(`${dir}/${logoFilename}`);
     expect(deleteResult2.data.id).to.equal(`${dir}/${logo2Filename}`);
 
     // Check that deleting an already deleted file produces {}
-    const deleteResult3 = await deleteAction.process.call(receiver,
-      { data: { path: `${dir}/${logoFilename}` } }, cfg);
+    const deleteResult3 = await deleteAction.process.call(
+      receiver,
+      { data: { path: `${dir}/${logoFilename}` } },
+      cfg,
+    );
     expect(deleteResult3.data).to.deep.equal({});
 
     await sftp.rmdir(`${cfg.directory}${PROCESSED_FOLDER_NAME}`, false);

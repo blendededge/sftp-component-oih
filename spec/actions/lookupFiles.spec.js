@@ -13,6 +13,7 @@ const context = {
     error: sinon.spy(),
     debug: sinon.spy(),
     trace: sinon.spy(),
+    child: () => context.logger,
   },
 };
 
