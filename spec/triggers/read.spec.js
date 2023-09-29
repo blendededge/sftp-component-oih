@@ -15,6 +15,8 @@ describe('SFTP test - read trigger', () => {
       debug: () => {},
       info: () => {},
       trace: () => {},
+      error: () => {},
+      child: () => self.logger,
     },
   };
   const buffer = Buffer.from('Hello');

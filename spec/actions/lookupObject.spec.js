@@ -86,7 +86,7 @@ describe('SFTP test - lookup file by file name', () => {
     ];
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list');
     sftpClientListStub.withArgs(dir, new RegExp(filename)).returns(list);
-    sftpClientListStub.withArgs(dir, new RegExp('nonexists')).returns([]);
+    sftpClientListStub.withArgs(dir, /nonexists/).returns([]);
     const result = await lookupObjectAction.getFile(dir, filename);
     expect(result).to.deep.equal({
       type: '-',
