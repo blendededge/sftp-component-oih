@@ -19,7 +19,7 @@
   "author": "Blended Edge LLC",
   "license": "Apache-2.0",
   "dependencies": {
-    "@blendededge/ferryman-extensions": "^2.0.3",
+    "@blendededge/ferryman-extensions": "^2.0.4",
     "@elastic.io/oih-standard-library": "^2.0.3",
     "@openintegrationhub/ferryman": "^2.3.0",
     "async": "^3.2.4",
