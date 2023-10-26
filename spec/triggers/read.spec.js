@@ -9,21 +9,25 @@ const Sftp = require('../../lib/Sftp');
 const trigger = require('../../lib/triggers/read');
 
 describe('SFTP test - read trigger', () => {
-  const self = {
-    emit: sinon.spy(),
-    logger: {
-      debug: () => {},
-      info: () => {},
-      trace: () => {},
-      error: () => {},
-      child: () => self.logger,
-    },
-  };
+  let self;
   const buffer = Buffer.from('Hello');
   const res = { config: { url: 'https://url' } };
   const cfg = {
     directory: 'www/test',
   };
+
+  beforeEach(() => {
+    self = {
+      emit: sinon.spy(),
+      logger: {
+        debug: () => {},
+        info: () => {},
+        trace: () => {},
+        error: () => {},
+        child: () => self.logger,
+      },
+    };
+  });
 
   afterEach(() => {
     sinon.restore();
@@ -32,7 +36,10 @@ describe('SFTP test - read trigger', () => {
   it('Failed to connect', async () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').throws(new Error('Connection failed'));
 
-    await expect(trigger.process.call(self, { metadata: {} }, cfg)).be.rejectedWith('Connection failed');
+    await trigger.process.call(self, { metadata: {} }, cfg);
+    const result = self.emit.getCalls();
+    expect(result[0].args[0]).to.be.equal('error');
+    expect(result[0].args[1].message).to.be.equal('Connection failed');
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientConnectStub.restore();
   });
@@ -41,7 +48,11 @@ describe('SFTP test - read trigger', () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').returns({});
     const sftpClientListStub = sinon.stub(Sftp.prototype, 'list').throws(new Error('No such directory'));
 
-    await expect(trigger.process.call(self, { metadata: {} }, cfg)).be.rejectedWith('No such directory');
+    await trigger.process.call(self, { metadata: {} }, cfg);
+
+    const result = self.emit.getCalls();
+    expect(result[0].args[0]).to.be.equal('error');
+    expect(result[0].args[1].message).to.be.equal('No such directory');
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     expect(sftpClientListStub.calledOnce).to.be.equal(true);
@@ -51,7 +62,11 @@ describe('SFTP test - read trigger', () => {
 
   it('Invalid file pattern causes exception', async () => {
     const sftpClientConnectStub = sinon.stub(Sftp.prototype, 'connect').returns({});
-    await expect(trigger.process.call(self, { metadata: {} }, { ...cfg, pattern: '***' })).be.rejectedWith('Invalid regular expression: /***/: Nothing to repeat');
+    await trigger.process.call(self, { metadata: {} }, { ...cfg, pattern: '***' });
+
+    const result = self.emit.getCalls();
+    expect(result[0].args[0]).to.be.equal('error');
+    expect(result[0].args[1].message).to.be.equal('Invalid regular expression: /***/: Nothing to repeat');
 
     expect(sftpClientConnectStub.calledOnce).to.be.equal(true);
     sftpClientConnectStub.restore();
@@ -160,7 +175,7 @@ describe('SFTP test - read trigger', () => {
 
     await trigger.process.call(self, { metadata: {} }, cfg);
 
-    expect(self.emit.getCall(9).args[1].data).to.be.deep.equal({
+    expect(self.emit.getCall(0).args[1].data).to.be.deep.equal({
       filename: '1.txt',
       size: 7,
     });

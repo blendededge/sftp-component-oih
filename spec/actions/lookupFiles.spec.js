@@ -161,10 +161,11 @@ describe('Lookup Files', () => {
     cfg.numSearchTerms = 1;
     cfg.emitBehaviour = 'emitIndividually';
     cfg.uploadFilesToAttachments = 'No';
-    await lookupFiles.process.call(context, msg, cfg, {}).catch((e) => {
-      expect(e.message).to.be.eql('Directory /unknown_dir/test is not exist');
-    });
-    expect(context.emit.getCalls().length).to.be.eql(0);
+    await lookupFiles.process.call(context, msg, cfg, {});
+    const result = context.emit.getCalls();
+    expect(result.length).to.be.eql(1);
+    expect(result[0].args[0]).to.be.eql('error');
+    expect(result[0].args[1].message).to.be.eql('Directory /unknown_dir/test is not exist');
   });
 
   it('getMetaModel', async () => {
