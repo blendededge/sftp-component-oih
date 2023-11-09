@@ -47,7 +47,7 @@ To access a secure SFTP servers that is configured with a key-based authenticati
 
 Also please pay attention that the field `Password` should be empty in this case.
 
-![image](https://user-images.githubusercontent.com/16806832/71006042-5db98a00-20ed-11ea-8e75-5a58b4207330.png)
+You can store the Private Key in the OIH Secret Service as an API Key secret type. The private key should be saved in the `key` property. Be sure to make sure new lines are represented as `\n` in the key or the you will get this error when trying to use it: `Error: connect: Cannot parse privateKey: Unsupported key format`. Leave the `headerName` empty property empty on the Secret record. 
 
 ## Triggers
 
